@@ -1,5 +1,5 @@
 [workspace]
-  members = ["sort_list"]
+  members = ["packages/*"]
 
   [workspace.package]
     version = "0.0.1"
@@ -9,3 +9,5 @@
     description = "A collection of personal helper utilities I wrote in Rust."
     repository = "https://github.com/princemuel/utility-kit"
     license = "MIT OR Apache-2.0"
+
+  [workspace.dependencies]
