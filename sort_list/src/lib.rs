@@ -1,4 +1,3 @@
-use std::collections::HashSet;
 use std::error::Error;
 use std::fs::{self, File};
 use std::io::Write;
@@ -86,12 +85,13 @@ impl Config {
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let content = fs::read_to_string(config.input_file_path)?;
 
-    let results = parse_lines(&content);
-    let mut unique_results = unique_lines(&results);
-    unique_results.sort();
+    let mut results = parse_lines(&content);
+
+    results.sort();
+    results.dedup();
 
     let mut output_file = File::create(config.output_file_path)?;
-    for result in unique_results {
+    for result in results {
         writeln!(output_file, "{}", result)?;
     }
 
@@ -102,12 +102,11 @@ pub fn parse_lines(content: &str) -> Vec<String> {
     content
         .lines()
         .map(|line| {
-            line.splitn(2, '.').nth(1).unwrap_or(line).trim().to_lowercase()
+            line.split_once('.')
+                .map(|x| x.1)
+                .unwrap_or(line)
+                .trim()
+                .to_lowercase()
         })
         .collect()
-}
-
-pub fn unique_lines(lines: &[String]) -> Vec<String> {
-    let mut unique_set = HashSet::new();
-    lines.iter().filter(|line| unique_set.insert(*line)).cloned().collect()
 }
