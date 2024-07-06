@@ -1,8 +1,7 @@
-use std::{env, process};
-
 extern crate sort_list;
 
 use sort_list::Config;
+use std::{env, process};
 
 fn main() {
     let config = Config::build(env::args()).unwrap_or_else(|exception| {
