@@ -1,0 +1,7 @@
+[package]
+  name = "sort_list"
+  version.workspace = true
+  authors.workspace = true
+  description.workspace = true
+
+[dependencies]
