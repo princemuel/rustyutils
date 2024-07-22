@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "sort_list"
+name = "list_sorter"
 version = "0.0.1"

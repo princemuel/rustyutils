@@ -1,6 +1,6 @@
-extern crate sort_list;
+extern crate list_sorter;
 
-use sort_list::Config;
+use list_sorter::Config;
 use std::{env, process};
 
 fn main() {
@@ -14,7 +14,7 @@ fn main() {
         config.input_file_path, config.output_file_path
     );
 
-    if let Err(exception) = sort_list::run(config) {
+    if let Err(exception) = list_sorter::run(config) {
         eprintln!("Application Error: {exception}");
         process::exit(1);
     };
