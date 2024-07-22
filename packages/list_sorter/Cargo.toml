@@ -1,5 +1,5 @@
 [package]
-  name = "sort_list"
+  name = "list_sorter"
   version.workspace = true
   authors.workspace = true
   description.workspace = true

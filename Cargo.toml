@@ -7,7 +7,7 @@
     edition = "2021"
     publish = false
     description = "A collection of personal helper utilities I wrote in Rust."
-    repository = "https://github.com/princemuel/utility-kit"
+    repository = "https://github.com/princemuel/rustyutils"
     license = "MIT OR Apache-2.0"
 
   [workspace.dependencies]
