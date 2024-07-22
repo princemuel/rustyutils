@@ -1,4 +1,4 @@
-# RustyUtils: A Collection of Personal Utility Tools
+# RustyUtils: A Collection of Personal Utility Tools 🦀
 
 **RustyUtils** is a Cargo workspace comprising a set of personal utility tools developed in Rust. This repository contains both libraries and binary applications designed to help with various tasks, such as sorting lists, processing data, and more. The aim is to create a suite of handy utilities that can be reused across different projects.
 
