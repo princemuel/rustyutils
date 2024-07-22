@@ -1,3 +1,4 @@
+use std::collections::BTreeSet;
 use std::error::Error;
 use std::fs::{self, File};
 use std::io::Write;
@@ -85,10 +86,7 @@ impl Config {
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let content = fs::read_to_string(config.input_file_path)?;
 
-    let mut results = parse_lines(&content);
-
-    results.sort();
-    results.dedup();
+    let results = parse_lines(&content);
 
     let mut output_file = File::create(config.output_file_path)?;
     for result in results {
@@ -98,7 +96,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub fn parse_lines(content: &str) -> Vec<String> {
+pub fn parse_lines(content: &str) -> BTreeSet<String> {
     content
         .lines()
         .map(|line| {
