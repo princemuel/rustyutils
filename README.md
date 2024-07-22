@@ -11,6 +11,23 @@
 
 ## Workspace Structure
 
+- [List Sorter](./packages/list_sorter/src/main.rs) A package for sorting a list of items in ascending order.
+
+### Variables
+
+- `-i` or `--input`: Input file name
+- `-o` or `--output`: Output file name
+
+### Usage
+
+```sh
+cargo run -- -i <input_file_name> -o <output_file_name>
+```
+
+```sh
+cargo run -- --input <input_file_name> --output <output_file_name>
+```
+
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
