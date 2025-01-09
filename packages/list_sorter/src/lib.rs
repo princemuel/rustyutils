@@ -1,110 +1,61 @@
-use std::collections::BTreeSet;
-use std::error::Error;
-use std::fs::{self, File};
-use std::io::Write;
-use std::path::PathBuf;
+use clap::Parser;
+use parser::parse_lines;
+use path_utils::resolve_path;
 
-pub struct Config {
-    pub input_file_path: PathBuf,
-    pub output_file_path: PathBuf,
+use std::{error::Error, fs, path::PathBuf};
+
+mod parser;
+mod path_utils;
+
+#[derive(Parser, Debug)]
+#[command(
+    author,
+    version,
+    about,
+    long_about = "This program processes a text file by reading its contents, sorting all lines in alphabetical order, and removing any numbering or leading indices at the beginning of each line. It creates a new file with the sorted contents or prints the result to stdout if no output file is specified."
+)]
+pub struct Args {
+    /// Source file path (input file)
+    #[arg(
+        short,
+        long,
+        required = true,
+        help = "(PathBuf, required) Path to the input file containing the raw text to process"
+    )]
+    source_file: PathBuf,
+
+    /// Result file path (output file)
+    #[arg(
+        short,
+        long,
+        required = false,
+        help = "(PathBuf, optional) Path to the output file where the sorted content will be saved. If not provided, prints to stdout"
+    )]
+    result_file: Option<PathBuf>,
+
+    /// Flag to enable case-insensitive processing
+    #[arg(
+        short = 'i',
+        long = "case-insensitive",
+        default_value = "false",
+        help = "Process the lines in a case-insensitive manner"
+    )]
+    case_insensitive: bool,
 }
 
-impl Config {
-    pub fn build(
-        args: impl Iterator<Item = String>,
-    ) -> Result<Config, Box<dyn Error>> {
-        let (input_file_path, output_file_path) = Config::parse_args(args)?;
+pub fn run(config: Args) -> Result<(), Box<dyn Error>> {
+    let file_path = resolve_path(config.source_file)?;
 
-        Config::validate_input_path(&input_file_path)?;
-        Config::create_output_dir_if_needed(output_file_path.clone())?;
+    let content = fs::read_to_string(file_path)?;
 
-        Ok(Config { input_file_path, output_file_path })
-    }
+    let processed_lines = parse_lines(&content, config.case_insensitive);
 
-    fn parse_args(
-        mut args: impl Iterator<Item = String>,
-    ) -> Result<(PathBuf, PathBuf), Box<dyn Error>> {
-        args.next(); // Skip the first argument (program name)
+    let result = processed_lines.into_iter().collect::<Vec<_>>().join("\n");
 
-        let mut input_file_path = None;
-        let mut output_file_path = None;
-
-        while let Some(arg) = args.next() {
-            match arg.as_str() {
-                "--input" | "-i" => {
-                    if let Some(path) = args.next() {
-                        input_file_path = Some(PathBuf::from(path));
-                    } else {
-                        return Err("Missing input file path".into());
-                    }
-                },
-                "--output" | "-o" => {
-                    if let Some(path) = args.next() {
-                        output_file_path = Some(PathBuf::from(path));
-                    } else {
-                        return Err("Missing output file path".into());
-                    }
-                },
-                _ => {
-                    return Err(format!("Unexpected argument: {}", arg).into());
-                },
-            }
-        }
-
-        let input_file_path =
-            input_file_path.ok_or("Missing input file path")?;
-        let output_file_path =
-            output_file_path.ok_or("Missing output file path")?;
-
-        Ok((input_file_path, output_file_path))
-    }
-
-    fn validate_input_path(path: &PathBuf) -> Result<(), Box<dyn Error>> {
-        if !path.exists() {
-            return Err(format!("Input file does not exist: {:?}", path).into());
-        }
-        if !path.is_file() {
-            return Err(format!("Input path is not a file: {:?}", path).into());
-        }
-        Ok(())
-    }
-
-    fn create_output_dir_if_needed(
-        path: PathBuf,
-    ) -> Result<(), Box<dyn Error>> {
-        // Create parent directory for output file if necessary
-        if let Some(parent) = path.parent() {
-            if !parent.exists() {
-                fs::create_dir_all(parent)?;
-            }
-        }
-
-        Ok(())
-    }
-}
-
-pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    let content = fs::read_to_string(config.input_file_path)?;
-
-    let results = parse_lines(&content);
-
-    let mut output_file = File::create(config.output_file_path)?;
-    for result in results {
-        writeln!(output_file, "{}", result)?;
+    match config.result_file {
+        Some(output_path) => fs::write(output_path, result)?,
+        None => println!("{result}"),
     }
 
     Ok(())
-}
-
-pub fn parse_lines(content: &str) -> BTreeSet<String> {
-    content
-        .lines()
-        .map(|line| {
-            line.split_once('.')
-                .map(|x| x.1)
-                .unwrap_or(line)
-                .trim()
-                .to_lowercase()
-        })
-        .collect()
 }

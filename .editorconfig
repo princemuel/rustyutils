@@ -12,13 +12,10 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 end_of_line = lf
 
-# Specific settings for Rust/Python files
+# Specific settings for Rust files
 [*.rs]
 indent_size = 4
 
-# Specific settings for Rust/Python files
-[*.slint]
-indent_size = 4
 
 # Specific settings for Markdown files
 [*.md]

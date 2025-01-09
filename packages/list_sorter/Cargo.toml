@@ -1,7 +1,13 @@
 [package]
   name = "list_sorter"
-  version.workspace = true
+  version = '0.2.0'
   authors.workspace = true
-  description.workspace = true
+  edition.workspace = true
+  publish.workspace = true
+  description = "Sorts the lines of a text file alphabetically, removing any numbering at the beginning of lines."
+  repository.workspace = true
+  license.workspace = true
 
 [dependencies]
+  clap.workspace = true
+  shellexpand.workspace = true
