@@ -1,0 +1,32 @@
+[package]
+    name                 = "cronn"
+    version              = '0.1.0'
+    authors.workspace    = true
+    edition.workspace    = true
+    publish.workspace    = true
+    description          = "Sorts the lines of a text file alphabetically, removing any numbering at the beginning of lines."
+    repository.workspace = true
+    license.workspace    = true
+
+[dependencies]
+    clap.workspace        = true
+    anyhow.workspace      = true
+    nix                   = { workspace = true, features = ["process", "fs"] }
+    log.workspace         = true
+    simplelog.workspace   = true
+    thiserror.workspace   = true
+    serde.workspace       = true
+    serde_yml.workspace   = true
+    config.workspace      = true
+    sysinfo.workspace     = true
+    signal-hook.workspace = true
+    chrono.workspace      = true
+    humantime.workspace   = true
+    tempfile.workspace    = true
+    assert_cmd.workspace  = true
+    predicates.workspace  = true
+
+[dev-dependencies]
+    tempfile.workspace   = true
+    assert_cmd.workspace = true
+    predicates.workspace = true

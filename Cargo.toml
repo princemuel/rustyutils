@@ -1,16 +1,50 @@
 [workspace]
-  resolver = "2"
-  members = ["packages/*"]
+ members  = ["packages/*"]
+    resolver = "3"
 
-  [workspace.package]
-    version = "0.0.1"
-    authors = ["Prince Muel <vansomecsam@gmail.com>"]
-    edition = "2021"
-    publish = false
-    description = "A collection of personal helper utilities I wrote in Rust."
-    repository = "https://github.com/princemuel/rustyutils"
-    license = "MIT OR Apache-2.0"
+    [workspace.package]
 
-  [workspace.dependencies]
-    clap = { version = "4", features = ["derive"] }
-    shellexpand = "3"
+        authors     = ["Prince Muel <68931805+princemuel@users.noreply.github.com>"]
+                description = "A collection of personal helper utilities I wrote in Rust."
+                license     = "MIT OR Apache-2.0"
+        publish     = false
+        repository  = "https://github.com/princemuel/rustyutils"
+   version     = "0.1.0"
+
+    [workspace.dependencies]
+        clap        = { version = "4", features = ["derive"] }
+        shellexpand = "3"
+        anyhow      = "1"
+        nix         = "0.29"
+        log         = "0.4"
+        simplelog   = "0.12"
+        thiserror   = "1"
+        serde                    = { version = "1", features = ["derive"] }
+        serde_json               = "1"
+        serde_yml   = "0.0.12"
+        tokio                    = { version = "1", features = ["full"] }
+        tracing                  = "0.1"
+        tracing-subscriber       = "0.3"
+        config      = "0.15"
+        sysinfo     = "0.34"
+        signal-hook = "0.3"
+        chrono      = "0.4"
+        humantime   = "2"
+        tempfile    = "3"
+        assert_cmd  = "2"
+        predicates  = "2"
+    [workspace.lints.rust]
+        dead_code = "allow"
+    # unsafe_code = "forbid"
+    # unstable_features = "forbid"
+    [workspace.lints.clippy]
+        all                = { level = "deny", priority = -1 }
+        disallowed_methods = "allow"
+        empty_loop         = "forbid"
+        # infinite_loop      = "deny"
+        mem_forget = "deny"
+# todo               = "forbid"
+[profile.release]
+    lto       = true
+    opt-level = 'z'
+    panic     = "abort"

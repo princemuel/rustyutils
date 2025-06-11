@@ -1,6 +1,6 @@
-use std::fs;
-use std::io;
-use std::path::{Path, PathBuf};
+use ::std::fs;
+use ::std::io;
+use ::std::path::{Path, PathBuf};
 
 /// Resolves the given file path by expanding user directories and canonicalizing relative paths.
 ///

@@ -1,8 +1,8 @@
-use clap::Parser;
-use parser::parse_lines;
-use path_utils::resolve_path;
+use ::clap::Parser;
+use ::parser::parse_lines;
+use ::path_utils::resolve_path;
 
-use std::{error::Error, fs, path::PathBuf};
+use ::std::{error::Error, fs, path::PathBuf};
 
 mod parser;
 mod path_utils;

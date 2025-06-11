@@ -1,4 +1,4 @@
-use std::collections::BTreeSet;
+use ::std::collections::BTreeSet;
 
 pub fn parse_lines(content: &str, case_insensitive: bool) -> BTreeSet<String> {
     content
